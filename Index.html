@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Akses Kamera dan Lokasi</title>
+</head>
+<body>
+  <h2>Akses Kamera dan Lokasi</h2>
+  <video id="video" width="320" height="240" autoplay></video>
+  <p id="location"></p>
+
+  <script>
+    // Akses kamera
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        document.getElementById('video').srcObject = stream;
+      })
+      .catch(function(err) {
+        console.log("Gagal akses kamera: " + err);
+      });
+
+    // Akses lokasi
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const lokasi = `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
+        document.getElementById("location").innerText = lokasi;
+      }, function(error) {
+        document.getElementById("location").innerText = "Gagal mendapatkan lokasi.";
+      });
+    } else {
+      document.getElementById("location").innerText = "Geolocation tidak didukung.";
+    }
+  </script>
+</body>
+</html>
